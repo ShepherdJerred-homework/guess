@@ -1,0 +1,19 @@
+{
+  "name": "guess",
+  "version": "1.0.0",
+  "description": "Number guessing game",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShepherdJerred-homework/guess.git"
+  },
+  "author": "Jerred Shepherd",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ShepherdJerred-homework/guess/issues"
+  },
+  "homepage": "https://github.com/ShepherdJerred-homework/guess#readme"
+}
