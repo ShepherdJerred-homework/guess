@@ -5,15 +5,15 @@ const morgan = require('morgan');
 
 const config = require('../config');
 
-const guessRouter = require('guess/routes');
+const guessRouter = require('./guess/routes');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(expressSession({
   secret: config.sessionSecret,
-  saveUninitialized: false,
-  resave: false
+  saveUninitialized: true,
+  resave: true
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 

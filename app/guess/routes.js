@@ -2,31 +2,31 @@ const express = require('express');
 
 let router = express.Router();
 
-router.get('guess', (req, res) => {
-  let guesses = res.session.guesses;
-  let secret = res.session.secret;
+router.get('/guess', (req, res) => {
+  let guesses = req.session.guesses;
+  let secret = req.session.secret;
 
   if (secret === undefined || guesses[guesses.length] === secret) {
-    res.session.secret = Math.floor((Math.random() * 1000) + 1);
-    res.session.guesses = [];
-    guesses = res.session.guesses;
-    secret = res.session.secret;
+    req.session.secret = Math.floor((Math.random() * 1000) + 1);
+    req.session.guesses = [];
+    guesses = req.session.guesses;
+    secret = req.session.secret;
   }
 
   let html = generatePageHtml(guesses, secret);
   res.send(html);
 });
 
-router.post('guess', (req, res) => {
-  let guess = res.body.guess;
-  let guesses = res.session.guesses;
-  let secret = res.session.secret;
+router.post('/guess', (req, res) => {
+  let guess = req.body.guess;
+  let guesses = req.session.guesses;
+  let secret = req.session.secret;
 
   if (secret === undefined || guesses[guesses.length] === secret) {
-    res.session.secret = Math.floor((Math.random() * 1000) + 1);
-    res.session.guesses = [];
-    guesses = res.session.guesses;
-    secret = res.session.secret;
+    req.session.secret = Math.floor((Math.random() * 1000) + 1);
+    req.session.guesses = [];
+    guesses = req.session.guesses;
+    secret = req.session.secret;
   } else {
     if (!isNaN(guess)) {
       guesses.push(guess);
@@ -71,7 +71,7 @@ function generateGuessesTableHtml (guesses, secret) {
   let htmlTableEnd = '</table></div>';
 
   // TODO reverse order
-  for (let guess in guesses) {
+  for (let guess of guesses) {
     htmlTableContent += '<tr>';
     htmlTableContent += '<td>' + guess + '</td>';
     htmlTableContent += '<td>' + (guess > secret) ? 'Too high' : 'Too low' + '</td>';
