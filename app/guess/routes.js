@@ -6,7 +6,7 @@ router.get('/guess', (req, res) => {
   let guesses = req.session.guesses;
   let secret = req.session.secret;
 
-  if (secret === undefined || guesses[guesses.length] === secret) {
+  if (secret === undefined || guesses[guesses.length - 1] === secret) {
     req.session.secret = Math.floor((Math.random() * 1000) + 1);
     req.session.guesses = [];
     guesses = req.session.guesses;
@@ -22,14 +22,16 @@ router.post('/guess', (req, res) => {
   let guesses = req.session.guesses;
   let secret = req.session.secret;
 
-  if (secret === undefined || guesses[guesses.length] === secret) {
+  console.log(secret);
+
+  if (secret === undefined || guesses[guesses.length - 1] === secret) {
     req.session.secret = Math.floor((Math.random() * 1000) + 1);
     req.session.guesses = [];
     guesses = req.session.guesses;
     secret = req.session.secret;
   } else {
     if (!isNaN(guess)) {
-      guesses.push(guess);
+      guesses.push(Number(guess));
     }
   }
 
@@ -57,7 +59,7 @@ function generatePageHtml (guesses, secret) {
 function generateSolvedMessageHtml (numberOfGuesses) {
   let htmlDivStart = '<div id="correct"><p>';
   let htmlDivContent = 'You got it!  It took you ' + numberOfGuesses + ' guesses.';
-  let htmlDivEnd = '<p><a href="guesss">Play again</a></div>';
+  let htmlDivEnd = '<p><a href="/guess">Play again</a></div>';
   return htmlDivStart + htmlDivContent + htmlDivEnd;
 }
 
@@ -70,11 +72,10 @@ function generateGuessesTableHtml (guesses, secret) {
   let htmlTableContent = '';
   let htmlTableEnd = '</table></div>';
 
-  // TODO reverse order
-  for (let guess of guesses) {
+  for (let guess of guesses.slice(0).reverse()) {
     htmlTableContent += '<tr>';
     htmlTableContent += '<td>' + guess + '</td>';
-    htmlTableContent += '<td>' + (guess > secret) ? 'Too high' : 'Too low' + '</td>';
+    htmlTableContent += '<td>' + ((guess > secret) ? 'Too high' : 'Too low') + '</td>';
     htmlTableContent += '</tr>';
   }
 
