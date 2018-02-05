@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const expressHandlebars = require('express-handlebars');
 const expressSession = require('express-session');
 const morgan = require('morgan');
 
@@ -8,6 +9,9 @@ const config = require('../config');
 const guessRouter = require('./guess/routes');
 
 const app = express();
+
+app.engine('hbs', expressHandlebars({defaultLayout: null}));
+app.set('view engine', 'hbs');
 
 app.use(morgan('dev'));
 app.use(expressSession({

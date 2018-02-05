@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<title>Guess my secret!</title>
+<h1>Guess my secret!</h1>
+{{#if correct}}
+    <div id="correct"><p>You got it! It took you {{guesses.length}} guesses.
+        <p><a href="/guess">Play again</a>
+    </div>
+{{else}}
+    <form method="POST">
+        <label for="guess">Guess:</label>
+        <input type="text" id="guess" name="guess"/>
+        <input type="submit" value="Go"/>
+    </form>
+{{/if}}
+{{#if guesses.length}}
+    <div id="guesses">Here are your previous guesses
+        <table>
+            {{#each guesses}}
+            <tr>
+                <td>{{this.number}}
+            <td>{{#if this.low}}Too low{{else}}Too high{{/if}}
+            {{/each}}
+        </table>
+    </div>
+{{/if}}
